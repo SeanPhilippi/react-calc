@@ -1,4 +1,5 @@
 import getNum from './getNum';
+import getFilteredNums from './getFilteredNums';
 
 const calculate = inputString => {
   if (inputString.match(/-\d+/)) {
@@ -11,7 +12,8 @@ const calculate = inputString => {
       .split(',');
   });
   const nums = values.map(getNum);
-  return nums.reduce((ac, cv) => ac + cv);
+  const filteredNums = getFilteredNums(nums, 1000);
+  return filteredNums.reduce((ac, cv) => ac + cv).toString();
 };
 
 export default calculate;
