@@ -41,3 +41,14 @@ test('calculate with alt delimiter', () => {
   expect(calculate('rfrl\n45')).toBe(45);
   expect(calculate('1,2,3,4,5,6,\n7,8,9,10\n11,12')).toBe(78);
 });
+
+test('throw error for negative numbers', () => {
+  expect(() => calculate('3\n-3'))
+    .toThrowError('Negative numbers detected: -3. No negative numbers!');
+  expect(() => calculate('rfrl\n-45,23'))
+    .toThrowError('Negative numbers detected: -45. No negative numbers!');
+  expect(() => calculate('1,2,3,-4,5,6,\n7,-8,9,10\n11,12'))
+    .toThrowError('Negative numbers detected: -4, -8. No negative numbers!');
+  expect(() => calculate('-3,-5,23\n323'))
+    .toThrowError('Negative numbers detected: -3, -5. No negative numbers!');
+});

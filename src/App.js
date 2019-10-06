@@ -5,6 +5,7 @@ import './App.css';
 class App extends PureComponent {
   state = {
     inputString: '',
+    error: '',
   };
 
   handleOnChange = ({ target: { name, value } }) => {
@@ -14,14 +15,19 @@ class App extends PureComponent {
   handleSubmit = e => {
     e.preventDefault();
     const { inputString, altDelimiter } = this.state;
-    let result = calculate(inputString, altDelimiter);
-    this.setState({ result });
+    try {
+      let result = calculate(inputString, altDelimiter);
+      this.setState({ result });
+    } catch(err) {
+      this.setState({ error: err.message });
+    }
   };
 
   render() {
     const {
       result,
-      inputString
+      inputString,
+      error,
     } = this.state;
     return (
       <div className="App">
@@ -31,6 +37,9 @@ class App extends PureComponent {
           </h1>
           <div className="display">
             { result }
+          </div>
+          <div className="error-message">
+            { error }
           </div>
           <form onSubmit={ this.handleSubmit }>
             <div className="string-input">
