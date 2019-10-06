@@ -35,3 +35,9 @@ test('calculate', () => {
   expect(calculate('65,4,34,3,654,34,52')).toBe(846);
   expect(calculate('65,4,34,4vrv,se,34,52')).toBe(189);
 });
+
+test('calculate with alt delimiter', () => {
+  expect(calculate('3\n3')).toBe(6);
+  expect(calculate('rfrl\n45')).toBe(45);
+  expect(calculate('1,2,3,4,5,6,\n7,8,9,10\n11,12')).toBe(78);
+});

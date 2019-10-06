@@ -4,7 +4,7 @@ import './App.css';
 
 class App extends PureComponent {
   state = {
-    inputString: ''
+    inputString: '',
   };
 
   handleOnChange = ({ target: { name, value } }) => {
@@ -13,8 +13,8 @@ class App extends PureComponent {
 
   handleSubmit = e => {
     e.preventDefault();
-    const { inputString } = this.state;
-    let result = calculate(inputString);
+    const { inputString, altDelimiter } = this.state;
+    let result = calculate(inputString, altDelimiter);
     this.setState({ result });
   };
 
@@ -38,7 +38,7 @@ class App extends PureComponent {
                 String Input:
               </label>
               <textarea
-                rows="1"
+                rows="5"
                 columns="50"
                 autoFocus
                 autoComplete="off"
