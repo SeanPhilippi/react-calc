@@ -25,9 +25,9 @@ Create a calculator that only supports an Add operation given a single formatted
 ✓ 7. Support 1 custom delimiter of any length
 ✓   * use the format: `//[{delimiter}]\n{numbers}` e.g. `//[***]\n11***22***33` will return `66`
 ✓   * all previous formats should also be supported
-  8. Support multiple delimiters of any length
-    * use the format: `//[{delimiter1}][{delimiter2}]...\n{numbers}` e.g. `//[*][!!][r9r]\n11r9r22*33!!44` will return `110`
-    * all previous formats should also be supported
+✓ 8. Support multiple delimiters of any length
+✓   * use the format: `//[{delimiter1}][{delimiter2}]...\n{numbers}` e.g. `//[*][!!][r9r]\n11r9r22*33!!44` will return `110`
+✓   * all previous formats should also be supported
 
 ## Stretch goals
   1. Display the formula used to calculate the result e.g. `2,4,rrrr,1001,6` will return `2+4+0+0+6 = 12`

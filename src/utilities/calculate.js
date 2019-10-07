@@ -2,6 +2,7 @@ import getNum from './getNum';
 import getFilteredNums from './getFilteredNums';
 import getCustomDelimiter from './getCustomDelimiter';
 import getMultiCharDelimiter from './getMultiCharDelimiter';
+import getMultiDelimiters from './getMultiDelimiters';
 import getValues from './getValues';
 
 const calculate = inputString => {
@@ -11,7 +12,8 @@ const calculate = inputString => {
   const delimiterSettings = inputString.split('\n')[0];
   const customDelimiter = getCustomDelimiter(delimiterSettings);
   const multiCharDelimiter = getMultiCharDelimiter(delimiterSettings);
-  const delimiters = ['\n', customDelimiter, multiCharDelimiter];
+  const multiDelimiters = getMultiDelimiters(delimiterSettings);
+  const delimiters = ['\n', customDelimiter, multiCharDelimiter, ...multiDelimiters];
   const values = getValues(inputString, delimiters);
   const nums = values.map(getNum);
   const filteredNums = getFilteredNums(nums, 1000);

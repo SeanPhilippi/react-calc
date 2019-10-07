@@ -5,6 +5,7 @@ import getNum from './utilities/getNum';
 import getFilteredNums from './utilities/getFilteredNums';
 import getCustomDelimiter from './utilities/getCustomDelimiter';
 import getMultiCharDelimiter from './utilities/getMultiCharDelimiter';
+import getMultiDelimiters from './utilities/getMultiDelimiters';
 import getValues from './utilities/getValues';
 import calculate from './utilities/calculate';
 
@@ -107,4 +108,17 @@ test('get single multi character custom delimiter', () => {
     .toBe(',');
   expect(getMultiCharDelimiter('4,5,63'))
     .toBe(',');
+});
+
+test('get multiple delimiters of any length', () => {
+  expect(getMultiDelimiters('//[d3][55r][54f4f4]'))
+    .toStrictEqual(['d3', '55r', '54f4f4']);
+  expect(getMultiDelimiters('//[77^][f43f][dvfd!][gdrg-]'))
+    .toStrictEqual(['77^', 'f43f', 'dvfd!', 'gdrg-']);
+  expect(getMultiDelimiters('//[y8y67y][e44g][,.jk,.][e][red3][drt]'))
+    .toStrictEqual(['y8y67y', 'e44g', ',.jk,.', 'e', 'red3', 'drt']);
+  expect(getMultiDelimiters('/[34]'))
+    .toStrictEqual(',');
+  expect(getMultiDelimiters('//[4][5][63'))
+    .toStrictEqual(',');
 });
