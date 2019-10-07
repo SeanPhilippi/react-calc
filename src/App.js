@@ -17,8 +17,11 @@ class App extends PureComponent {
     const { inputString, altDelimiter } = this.state;
     try {
       let result = calculate(inputString, altDelimiter);
+      this.setState({ error: '' });
+      this.setState({ result: '' });
       this.setState({ result });
     } catch(err) {
+      this.setState({ result: '' });
       this.setState({ error: err.message });
     };
   };

@@ -4,6 +4,7 @@ import App from './App';
 import getNum from './utilities/getNum';
 import getFilteredNums from './utilities/getFilteredNums';
 import getCustomDelimiter from './utilities/getCustomDelimiter';
+import getMultiCharDelimiter from './utilities/getMultiCharDelimiter';
 import getValues from './utilities/getValues';
 import calculate from './utilities/calculate';
 
@@ -93,4 +94,17 @@ test('get correct values with custom delimiter', () => {
     .toStrictEqual(['1', '2', '34', '4', '9', '5', '6', '7', '8', '9', '10', '11', '12']);
   expect(getValues('l24\n542,4k42k4,25', ['\n', 'k']))
     .toStrictEqual(['l24', '542', '4', '42', '4', '25']);
+});
+
+test('get single multi character custom delimiter', () => {
+  expect(getMultiCharDelimiter('//[d3]'))
+    .toBe('d3');
+  expect(getMultiCharDelimiter('//[77^]'))
+    .toBe('77^');
+  expect(getMultiCharDelimiter('//[y8y67y]'))
+    .toBe('y8y67y');
+  expect(getMultiCharDelimiter('/[34]'))
+    .toBe(',');
+  expect(getMultiCharDelimiter('4,5,63'))
+    .toBe(',');
 });
