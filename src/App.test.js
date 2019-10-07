@@ -33,34 +33,37 @@ test('invalid numbers should be converted to 0', () => {
 });
 
 test('calculate the sum of an unlimited number of numbers', () => {
-  expect(calculate('3,3,45,34,555,6363'))
-    .toBe('640');
-  expect(calculate('2,30'))
+  expect(calculate([5, 6, 5, 4, 5, 777, 6, 6, 553, 434]))
+    .toBe('1801');
+  expect(calculate([2, 30]))
     .toBe('32');
-  expect(calculate('1,2,3,4,5,6,7,8,9,10,11,12'))
+  expect(calculate([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]))
     .toBe('78');
-  expect(calculate('3,3,lfe'))
+  expect(calculate([3, 3, 0]))
     .toBe('6');
-  expect(calculate('rfr,45'))
+  expect(calculate([45]))
     .toBe('45');
-  expect(calculate('65,4,34,4vrv,se,34,52'))
-    .toBe('189');
+  expect(calculate([54, 64, 36, 26, 4, 467, 54, 2]))
+    .toBe('707');
 });
 
 test('calculate with alt delimiter', () => {
-  expect(calculate('3\n3')).toBe('6');
-  expect(calculate('rfrl\n45')).toBe('45');
-  expect(calculate('1,2,3,4,5,6,\n7,8,9,10\n11,12')).toBe('78');
+  expect(calculate(getValues('3\n3', ['\n'])))
+    .toBe('6');
+  expect(calculate(getValues('rfrl\n45', ['\n'])))
+    .toBe('45');
+  expect(calculate(getValues('1,2,3,4,5,6,\n7,8,9,10\n11,12', ['\n'])))
+    .toBe('78');
 });
 
 test('throw error for negative numbers', () => {
-  expect(() => calculate('3\n-3'))
+  expect(() => calculate([3, -3]))
     .toThrowError('Negative numbers detected: -3. No negative numbers!');
-  expect(() => calculate('rfrl\n-45,23'))
+  expect(() => calculate([-45, 23]))
     .toThrowError('Negative numbers detected: -45. No negative numbers!');
-  expect(() => calculate('1,2,3,-4,5,6,\n7,-8,9,10\n11,12'))
+  expect(() => calculate([-4, 3, 2, 5, 33, 444, -8]))
     .toThrowError('Negative numbers detected: -4, -8. No negative numbers!');
-  expect(() => calculate('-3,-5,23\n323'))
+  expect(() => calculate([-3, -5, 0, 0]))
     .toThrowError('Negative numbers detected: -3, -5. No negative numbers!');
 });
 
@@ -88,13 +91,13 @@ test('get single character custom delimiter', () => {
 
 test('get correct values with custom delimiter', () => {
   expect(getValues('3\n3fefe33', ['\n', 'fefe']))
-    .toStrictEqual(['3', '3', '33']);
+    .toStrictEqual([3, 3, 33]);
   expect(getValues('6rf5rl\n45', ['\n', 'rf']))
-    .toStrictEqual(['6', '5rl', '45']);
+    .toStrictEqual([6, 0, 45]);
   expect(getValues('1,2,34,4,934*5,6\n7,8,9,10\n11,12', ['\n', '34*']))
-    .toStrictEqual(['1', '2', '34', '4', '9', '5', '6', '7', '8', '9', '10', '11', '12']);
+    .toStrictEqual([1, 2, 34, 4, 9, 5, 6, 7, 8, 9, 10, 11, 12]);
   expect(getValues('l24\n542,4k42k4,25', ['\n', 'k']))
-    .toStrictEqual(['l24', '542', '4', '42', '4', '25']);
+    .toStrictEqual([0, 542, 4, 42, 4, 25]);
 });
 
 test('get single multi character custom delimiter', () => {

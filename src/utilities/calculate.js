@@ -1,23 +1,9 @@
-import getNum from './getNum';
-import getFilteredNums from './getFilteredNums';
-import getCustomDelimiter from './getCustomDelimiter';
-import getMultiCharDelimiter from './getMultiCharDelimiter';
-import getMultiDelimiters from './getMultiDelimiters';
-import getValues from './getValues';
-
-const calculate = inputString => {
-  if (inputString.match(/-\d+/)) {
-    throw new Error(`Negative numbers detected: ${ inputString.match(/-\d+/g).join(',').split(',').join(', ') }. No negative numbers!`);
+const calculate = values => {
+  const negativeNums = values.filter(num => num < 0);
+  if (negativeNums.length) {
+    throw new Error(`Negative numbers detected: ${ negativeNums.join(',').split(',').join(', ') }. No negative numbers!`);
   };
-  const delimiterSettings = inputString.split('\n')[0];
-  const customDelimiter = getCustomDelimiter(delimiterSettings);
-  const multiCharDelimiter = getMultiCharDelimiter(delimiterSettings);
-  const multiDelimiters = getMultiDelimiters(delimiterSettings);
-  const delimiters = ['\n', customDelimiter, multiCharDelimiter, ...multiDelimiters];
-  const values = getValues(inputString, delimiters);
-  const nums = values.map(getNum);
-  const filteredNums = getFilteredNums(nums, 1000);
-  return filteredNums.reduce((ac, cv) => ac + cv).toString();
+  return values.reduce((ac, cv) => ac + cv).toString();
 };
 
 export default calculate;

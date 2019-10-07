@@ -1,11 +1,16 @@
 import React, { PureComponent } from 'react';
 import calculate from './utilities/calculate';
+import getDelimiters from './utilities/getDelimiters';
+import getValues from './utilities/getValues';
 import './App.css';
 
 class App extends PureComponent {
   state = {
     inputString: '',
+    result: '',
+    formula: '',
     error: '',
+    operator: '+',
   };
 
   handleOnChange = ({ target: { name, value } }) => {
@@ -14,22 +19,32 @@ class App extends PureComponent {
 
   handleSubmit = e => {
     e.preventDefault();
-    const { inputString, altDelimiter } = this.state;
+    const { inputString, operator } = this.state;
     try {
-      let result = calculate(inputString, altDelimiter);
-      this.setState({ error: '' });
-      this.setState({ result: '' });
-      this.setState({ result });
+      const delimiterSettings = inputString.split('\n')[0];
+      const delimiters = getDelimiters(delimiterSettings);
+      const values = getValues(inputString, delimiters);
+      const formula = values.join(` ${ operator } `) + ' =';
+      this.setState({ formula });
+      let result = calculate(values);
+      this.setState({
+        error: '',
+        result
+      });
     } catch(err) {
-      this.setState({ result: '' });
-      this.setState({ error: err.message });
+      this.setState({
+        result: '',
+        formula: '',
+        error: err.message
+      });
     };
   };
 
   render() {
     const {
-      result,
       inputString,
+      result,
+      formula,
       error,
     } = this.state;
     return (
@@ -38,8 +53,8 @@ class App extends PureComponent {
           <h1>
             String Calculator
           </h1>
-          <div className="display">
-            { result }
+          <div className="formula">
+            { formula } { result }
           </div>
           <div className="error-message">
             { error }
