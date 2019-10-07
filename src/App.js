@@ -20,7 +20,7 @@ class App extends PureComponent {
       this.setState({ result });
     } catch(err) {
       this.setState({ error: err.message });
-    }
+    };
   };
 
   render() {
