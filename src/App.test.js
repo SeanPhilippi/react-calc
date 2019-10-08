@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import getNum from './utilities/getNum';
+import getDelimiters from './utilities/getDelimiters';
 import getFilteredNums from './utilities/getFilteredNums';
 import getCustomDelimiter from './utilities/getCustomDelimiter';
 import getMultiCharDelimiter from './utilities/getMultiCharDelimiter';
@@ -48,23 +49,36 @@ test('calculate the sum of an unlimited number of numbers', () => {
 });
 
 test('calculate with alt delimiter', () => {
-  expect(calculate(getValues('3\n3', ['\n'])))
+  expect(calculate(getValues('3\n3', ['\n'], 1000)))
     .toBe('6');
-  expect(calculate(getValues('rfrl\n45', ['\n'])))
+  expect(calculate(getValues('rfrl\n45', ['\n'], 1000)))
     .toBe('45');
-  expect(calculate(getValues('1,2,3,4,5,6,\n7,8,9,10\n11,12', ['\n'])))
+  expect(calculate(getValues('1,2,3,4,5,6,\n7,8,9,10\n11,12', ['\n'], 1000)))
     .toBe('78');
 });
 
-test('throw error for negative numbers', () => {
-  expect(() => calculate([3, -3]))
+test('get values using custom alt delimiter', () => {
+  expect(getValues('//[r]\n34,54,76,45y54^54@34y12', getDelimiters('//[r]', 'y'), 1000))
+    .toStrictEqual([0, 0, 54, 76, 45, 0, 12]);
+  expect(getValues('//[fe][ses]\n34,54,76,45fe54^54@34y12', getDelimiters('//[fe][ses]', '^'), 1000))
+    .toStrictEqual([0, 0, 54, 76, 45, 54, 0]);
+  expect(getValues('//[4f%][s3s][p-o]\n34,534,76fe,45fe54^54@32@334y12', getDelimiters('//[4f%][s3s][p-o]', '@'), 1000))
+    .toStrictEqual([0, 0, 534, 0, 0, 32, 0]);
+});
+
+test('throw error for negative numbers if not allowed', () => {
+  expect(() => calculate([3, -3], false))
     .toThrowError('Negative numbers detected: -3. No negative numbers!');
-  expect(() => calculate([-45, 23]))
+  expect(() => calculate([-45, 23], false))
     .toThrowError('Negative numbers detected: -45. No negative numbers!');
-  expect(() => calculate([-4, 3, 2, 5, 33, 444, -8]))
+  expect(() => calculate([-4, 3, 2, 5, 33, 444, -8], false))
     .toThrowError('Negative numbers detected: -4, -8. No negative numbers!');
-  expect(() => calculate([-3, -5, 0, 0]))
+  expect(() => calculate([-3, -5, 0, 0], false))
     .toThrowError('Negative numbers detected: -3, -5. No negative numbers!');
+  expect(calculate([-33, -52, 4, 0], true))
+    .toBe('-81');
+  expect(calculate([-300, 65, 0, 30], true))
+    .toBe('-205');
 });
 
 test('filter out numbers greater than upper bound', () => {
@@ -90,13 +104,13 @@ test('get single character custom delimiter', () => {
 });
 
 test('get correct values with custom delimiter', () => {
-  expect(getValues('3\n3fefe33', ['\n', 'fefe']))
+  expect(getValues('3\n3fefe33', ['\n', 'fefe'], 1000))
     .toStrictEqual([3, 3, 33]);
-  expect(getValues('6rf5rl\n45', ['\n', 'rf']))
+  expect(getValues('6rf5rl\n45', ['\n', 'rf'], 1000))
     .toStrictEqual([6, 0, 45]);
-  expect(getValues('1,2,34,4,934*5,6\n7,8,9,10\n11,12', ['\n', '34*']))
+  expect(getValues('1,2,34,4,934*5,6\n7,8,9,10\n11,12', ['\n', '34*'], 1000))
     .toStrictEqual([1, 2, 34, 4, 9, 5, 6, 7, 8, 9, 10, 11, 12]);
-  expect(getValues('l24\n542,4k42k4,25', ['\n', 'k']))
+  expect(getValues('l24\n542,4k42k4,25', ['\n', 'k'], 1000))
     .toStrictEqual([0, 542, 4, 42, 4, 25]);
 });
 

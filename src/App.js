@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import Settings from './components/Settings';
 import calculate from './utilities/calculate';
 import getDelimiters from './utilities/getDelimiters';
 import getValues from './utilities/getValues';
@@ -10,23 +11,36 @@ class App extends PureComponent {
     result: '',
     formula: '',
     error: '',
+    altDelimiter: '\n',
+    upperBound: 1000,
     operator: '+',
+    allowNegativeNumbers: false,
   };
 
   handleOnChange = ({ target: { name, value } }) => {
     this.setState({ [name]: value });
   };
 
+  handleCheck = () => {
+    this.setState({ allowNegativeNumbers: !this.state.allowNegativeNumbers });
+  };
+
   handleSubmit = e => {
     e.preventDefault();
-    const { inputString, operator } = this.state;
+    const {
+      inputString,
+      altDelimiter,
+      operator,
+      upperBound,
+      allowNegativeNumbers
+    } = this.state;
     try {
       const delimiterSettings = inputString.split('\n')[0];
-      const delimiters = getDelimiters(delimiterSettings);
-      const values = getValues(inputString, delimiters);
+      const delimiters = getDelimiters(delimiterSettings, altDelimiter);
+      const values = getValues(inputString, delimiters, upperBound);
       const formula = values.join(` ${ operator } `) + ' =';
       this.setState({ formula });
-      let result = calculate(values);
+      let result = calculate(values, allowNegativeNumbers);
       this.setState({
         error: '',
         result
@@ -46,7 +60,11 @@ class App extends PureComponent {
       result,
       formula,
       error,
+      altDelimiter,
+      upperBound,
+      allowNegativeNumbers
     } = this.state;
+
     return (
       <div className="App">
         <div className="calculator">
@@ -82,6 +100,13 @@ class App extends PureComponent {
               className="submit"
             />
           </form>
+          <Settings
+            altDelimiter={ altDelimiter }
+            upperBound={ upperBound }
+            allowNegativeNumbers={ allowNegativeNumbers }
+            handleOnChange={ this.handleOnChange }
+            handleCheck={ this.handleCheck }
+          />
         </div>
       </div>
     );
