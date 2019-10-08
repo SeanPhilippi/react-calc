@@ -36,6 +36,9 @@ class App extends PureComponent {
     } = this.state;
     try {
       const delimiterSettings = inputString.split('\n')[0];
+      if (delimiterSettings.slice(0, 2) === '//' && !inputString.split('\n')[1]) {
+        throw new Error('There is nothing to parse for the calculation.');
+      };
       const delimiters = getDelimiters(delimiterSettings, altDelimiter);
       const values = getValues(inputString, delimiters, upperBound);
       const formula = values.join(` ${ operator } `) + ' =';
@@ -71,7 +74,7 @@ class App extends PureComponent {
           <h1>
             String Calculator
           </h1>
-          <div className="formula">
+          <div className="display">
             { formula } { result }
           </div>
           <div className="error-message">
