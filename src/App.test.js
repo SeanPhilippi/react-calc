@@ -34,26 +34,26 @@ test('invalid numbers should be converted to 0', () => {
 });
 
 test('calculate the sum of an unlimited number of numbers', () => {
-  expect(calculate([5, 6, 5, 4, 5, 777, 6, 6, 553, 434]))
+  expect(calculate([5, 6, 5, 4, 5, 777, 6, 6, 553, 434], '+', false))
     .toBe('1801');
-  expect(calculate([2, 30]))
+  expect(calculate([2, 30], '+', false))
     .toBe('32');
-  expect(calculate([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]))
+  expect(calculate([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], '+', false))
     .toBe('78');
-  expect(calculate([3, 3, 0]))
+  expect(calculate([3, 3, 0], '+', false))
     .toBe('6');
-  expect(calculate([45]))
+  expect(calculate([45], '+', false))
     .toBe('45');
-  expect(calculate([54, 64, 36, 26, 4, 467, 54, 2]))
+  expect(calculate([54, 64, 36, 26, 4, 467, 54, 2], '+', false))
     .toBe('707');
 });
 
 test('calculate with alt delimiter', () => {
-  expect(calculate(getValues('3\n3', ['\n'], 1000)))
+  expect(calculate(getValues('3\n3', ['\n'], 1000), '+', false))
     .toBe('6');
-  expect(calculate(getValues('rfrl\n45', ['\n'], 1000)))
+  expect(calculate(getValues('rfrl\n45', ['\n'], 1000), '+', false))
     .toBe('45');
-  expect(calculate(getValues('1,2,3,4,5,6,\n7,8,9,10\n11,12', ['\n'], 1000)))
+  expect(calculate(getValues('1,2,3,4,5,6,\n7,8,9,10\n11,12', ['\n'], 1000), '+', false))
     .toBe('78');
 });
 
@@ -67,17 +67,17 @@ test('get values using custom alt delimiter', () => {
 });
 
 test('throw error for negative numbers if not allowed', () => {
-  expect(() => calculate([3, -3], false))
+  expect(() => calculate([3, -3], '+', false))
     .toThrowError('Negative numbers detected: -3. No negative numbers!');
-  expect(() => calculate([-45, 23], false))
+  expect(() => calculate([-45, 23], '+', false))
     .toThrowError('Negative numbers detected: -45. No negative numbers!');
-  expect(() => calculate([-4, 3, 2, 5, 33, 444, -8], false))
+  expect(() => calculate([-4, 3, 2, 5, 33, 444, -8], '+', false))
     .toThrowError('Negative numbers detected: -4, -8. No negative numbers!');
-  expect(() => calculate([-3, -5, 0, 0], false))
+  expect(() => calculate([-3, -5, 0, 0], '+', false))
     .toThrowError('Negative numbers detected: -3, -5. No negative numbers!');
-  expect(calculate([-33, -52, 4, 0], true))
+  expect(calculate([-33, -52, 4, 0], '+', true))
     .toBe('-81');
-  expect(calculate([-300, 65, 0, 30], true))
+  expect(calculate([-300, 65, 0, 30], '+', true))
     .toBe('-205');
 });
 
@@ -138,4 +138,15 @@ test('get multiple delimiters of any length', () => {
     .toStrictEqual(',');
   expect(getMultiDelimiters('//[4][5][63'))
     .toStrictEqual(',');
+});
+
+test('calculate with different operators', () => {
+  expect(calculate([45, 34, 65, 43], '+', false))
+    .toBe('187');
+  expect(calculate([45, 34, 65, 43], '-', false))
+    .toBe('-97');
+  expect(calculate([45, 34, 65, 43], 'x', false))
+    .toBe('4276350');
+  expect(calculate([45, 34, 65, 43], '/', false))
+    .toBe('0.0004735346732610755');
 });

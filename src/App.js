@@ -40,7 +40,7 @@ class App extends PureComponent {
       const values = getValues(inputString, delimiters, upperBound);
       const formula = values.join(` ${ operator } `) + ' =';
       this.setState({ formula });
-      let result = calculate(values, allowNegativeNumbers);
+      let result = calculate(values, operator, allowNegativeNumbers);
       this.setState({
         error: '',
         result

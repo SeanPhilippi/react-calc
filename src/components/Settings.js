@@ -58,6 +58,22 @@ const Settings = ({
         onChange={ handleOnChange }
       />
     </div>
+    <div>
+      <label htmlFor="operator-select">
+        Operator Select:
+      </label>
+      <select
+        className="operators"
+        name="operator"
+        id="operator-select"
+        onChange={ handleOnChange }
+      >
+        <option value="+">+</option>
+        <option value="-">-</option>
+        <option value="/">÷</option>
+        <option value="x">x</option>
+      </select>
+    </div>
   </div>
 );
 
