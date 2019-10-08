@@ -1,4 +1,6 @@
 import React, { PureComponent } from 'react';
+import Display from './components/Display';
+import Form from './components/Form';
 import Settings from './components/Settings';
 import calculate from './utilities/calculate';
 import getDelimiters from './utilities/getDelimiters';
@@ -69,48 +71,24 @@ class App extends PureComponent {
     } = this.state;
 
     return (
-      <div className="App">
-        <div className="calculator">
-          <h1>
-            String Calculator
-          </h1>
-          <div className="display">
-            { formula } { result }
-          </div>
-          <div className="error-message">
-            { error }
-          </div>
-          <form onSubmit={ this.handleSubmit }>
-            <div className="string-input">
-              <label htmlFor="string-input">
-                String Input:
-              </label>
-              <textarea
-                rows="5"
-                columns="50"
-                autoFocus
-                autoComplete="off"
-                placeholder=""
-                name="inputString"
-                value={ inputString }
-                onChange={ this.handleOnChange }
-              >
-              </textarea>
-            </div>
-            <input
-              type="submit"
-              value="calculate"
-              className="submit"
-            />
-          </form>
-          <Settings
-            altDelimiter={ altDelimiter }
-            upperBound={ upperBound }
-            allowNegativeNumbers={ allowNegativeNumbers }
-            handleOnChange={ this.handleOnChange }
-            handleCheck={ this.handleCheck }
-          />
-        </div>
+      <div className="calculator">
+        <Display
+          result={ result }
+          error={ error }
+          formula={ formula }
+        />
+        <Form
+          inputString={ inputString }
+          handleSumbit={ this.handleSubmit }
+          handleOnChange={ this.handleOnChange }
+        />
+        <Settings
+          altDelimiter={ altDelimiter }
+          upperBound={ upperBound }
+          allowNegativeNumbers={ allowNegativeNumbers }
+          handleOnChange={ this.handleOnChange }
+          handleCheck={ this.handleCheck }
+        />
       </div>
     );
   };

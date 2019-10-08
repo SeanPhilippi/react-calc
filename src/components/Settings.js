@@ -39,7 +39,7 @@ const Settings = ({
       <input
         name="altDelimiter"
         className="custom-delimiter"
-        placeholder="this character will replace '\n' delimiter"
+        placeholder="\n"
         type="text"
         maxLength="1"
         value={ altDelimiter }

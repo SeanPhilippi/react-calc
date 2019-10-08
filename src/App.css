@@ -1,4 +1,4 @@
-.App {
+.calculator {
   text-align: center;
 }
 
@@ -85,7 +85,7 @@ label {
 
 .custom-delimiter {
   margin-top: 1rem;
-  padding-left: 5px;
+  text-align: center;
   font-size: 1rem;
   font-weight: 600;
   width: 3rem;
@@ -96,7 +96,7 @@ label {
 
 .upper-bound {
   margin-top: 1rem;
-  padding-left: 5px;
+  text-align: center;
   font-size: 1rem;
   font-weight: 600;
   width: 5rem;
