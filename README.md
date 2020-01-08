@@ -1,14 +1,12 @@
+# string-calculator
+
 ## Project Commands
 
 Start Calculator: ```npm start```
 
 Run Tests: ```npm test```
 
-# challenge-calculator
-Restaurant365 Code Challenge - String Calculator
-
-
-## Summary
+## Challenge Summary
 Create a calculator that only supports an Add operation given a single formatted string
 
   * html / javascript / react
